@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>  </head>
+    <style>
+        body {
+            background-color: #F06292;
+        }
+
+        .asd {
+            width: 500px;
+            margin: auto;
+        }
+
+        #inputtext {
+            width: 100%
+        }
+    </style>
+    <body>
+      <script>
+      var socket = io.connect();
+      var count = 0;
+      var font_size = "32";
+      socket.on('date', function(data){
+        $('#data').text(data);
+      });
+
+      socket.on('chat',function(chat){
+      if(chat !== $('#text').text()){   
+          $('#text').text(""+chat);
+          $("#text").scrollTop(count*font_size);
+          count++;
+      }
+      });
+      
+
+      $(document).ready(function(){
+        $('#inputtext').keypress(function(e){
+          if(e.charCode === 13){
+            socket.emit('client_data', {'letter': $('#inputtext').val()+"\n" });
+            $('#inputtext').val("");
+          }
+        });
+      });
+      </script>
+      <!--<div id="date"></div>
+      <textarea id="text"></textarea>-->
+      <div class="asd">
+        <textarea name="name" rows="15" cols="80" id="text"></textarea><br>
+        <input type="text" name="" value="" id="inputtext">
+        <button type="button" name="button" id="button">보내기</button>
+    </div>
+    </body>
+    </html>
