@@ -34,7 +34,7 @@ var server = http.createServer(function(request, response){
     }
 });
 
-server.listen(8001);
+server.listen(process.env.PORT || 8001);
 
 var listener = io.listen(server);
 
@@ -52,10 +52,10 @@ listener.sockets.on('connection', function(socket){
       text+=data.letter;
       //process.stdout.write(data.letter);
   });
-  setInterval(function(){ 
+  setInterval(function(){
       console.log(typeof(text));
       console.log(text);
       socket.emit('chat', text);
    }, 1000);
-  
+
 });
